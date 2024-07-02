@@ -1,52 +1,39 @@
-import sys
+import argparse
 from des import DES
 from services.image import get_image_data, put_image_data
 
 
 def encrypt():
-    try:
-        image_path = sys.argv[1].lower()
-        mode = sys.argv[2].lower()
-
-        if image_path[-3:] != "png":
-            print("Invalid image type. Must be a PNG file.")
-            return
-        
-        mode_types = frozenset(["ecb", "cbc", "cfb", "ofb", "ctr"])
-
-        if mode not in mode_types:
-            print("Invalid mode. Must be one of the following: ecb, cbc, cfb, ofb, or ctr.")
-            return
-    except:
-        print("Invalid arguments. Usage: `python main.py <image_path> <mode>`")
-        return
-
-    image_tokens = image_path.split(".")
-    PATH = image_tokens[0]
-    EXTENSION = image_tokens[1]
-
-    output_path = f"{PATH}-{mode}_encryption.{EXTENSION}"
+    parser = argparse.ArgumentParser(description="Encrypt a PNG file using the DES algorithm.")
+    parser.add_argument("--input", type=str, required=True, help="The path to the PNG file you wish to encrypt.")
+    parser.add_argument("--mode", type=str, required=True, choices=["ECB", "CBC", "CFB", "OFB", "CTR"], help="The encryption mode to use (ECB, CBC, CFB, OFB, or CTR).")
+    args = parser.parse_args()
     
-    pixels = get_image_data(image_path)
+    pixels = get_image_data(args.input)
     des = DES(pixels)
 
-    match mode:
-        case "ecb":
+    match args.mode:
+        case "ECB":
             des.mode.pad_text()
             encrypted_data = des.mode.ecb()
             des.mode.unpad_text()
-        case "cbc":
+        case "CBC":
             des.mode.pad_text()
             encrypted_data = des.mode.cbc()
             des.mode.unpad_text()
-        case "cfb":
+        case "CFB":
             encrypted_data = des.mode.cfb()
-        case "ofb":
+        case "OFB":
             encrypted_data = des.mode.ofb()
-        case "ctr":
+        case "CTR":
             encrypted_data = des.mode.ctr()
+
+    image_tokens = args.input.split(".")
+    PATH = image_tokens[0]
+    EXTENSION = image_tokens[1]
+    output_path = f"{PATH}-{args.mode}_ENCRYPTION.{EXTENSION}"
         
-    put_image_data(image_path, output_path, encrypted_data)
+    put_image_data(args.input, output_path, encrypted_data)
     print(f"Image written to {output_path}.")
 
 
