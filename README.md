@@ -2,7 +2,7 @@
 
 ## Overview
 
-The DES Image Encryption application enables users to encrypt PNG files using the Data Encryption Standard (DES) algorithm. This tool supports five different encryption modes: ECB, CBC, CFB, OFB, and CTR. The DES algorithm, as implemented in this project, follows the detailed guidelines provided in [The DES Algorithm Illustrated](https://page.math.tu-berlin.de/~kant/teaching/hess/krypto-ws2006/des.htm) by J. Orlin Grabbe. To use, first create and spin up a [virtual environment](https://docs.python.org/3/library/venv.html) and then run the following command:
+The DES Image Encryption application enables users to encrypt image files using the Data Encryption Standard (DES) algorithm. This tool supports five different encryption modes: ECB, CBC, CFB, OFB, and CTR. The DES algorithm, as implemented in this project, follows the detailed guidelines provided in [The DES Algorithm Illustrated](https://page.math.tu-berlin.de/~kant/teaching/hess/krypto-ws2006/des.htm) by J. Orlin Grabbe. To use, first create and spin up a [virtual environment](https://docs.python.org/3/library/venv.html) and then run the following command:
 
 ## Features
 
@@ -10,6 +10,10 @@ The DES Image Encryption application enables users to encrypt PNG files using th
 - **Multiple Encryption Modes:** Choose from five different modes of DES encryption to suit your security needs.
 - **PNG File Support:** Specifically designed to work with PNG image files.
 - **Python Virtual Environment:** Utilizes a Python virtual environment to manage dependencies and ensure a consistent runtime environment.
+
+## Notes
+
+The application currently only supports PNG and JPG image file formats.
 
 ## Prerequisites
 
@@ -29,5 +33,5 @@ To encrypt a PNG file, run the following command:
 python encrypt.py --input <input_file> --mode <mode>
 ```
 
-- `<input_file>`: The path to the PNG file you wish to encrypt.
+- `<input_file>`: The *relative* path to the image file you wish to encrypt.
 - `<mode>`: The encryption mode to use (ECB, CBC, CFB, OFB, or CTR).
