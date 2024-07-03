@@ -5,8 +5,8 @@ from services.image import get_image_data, put_image_data
 
 
 def encrypt():
-    parser = argparse.ArgumentParser(description="Encrypt a PNG file using the DES algorithm.")
-    parser.add_argument("--input", type=str, required=True, help="The path to the PNG file you wish to encrypt.")
+    parser = argparse.ArgumentParser(description="Encrypt an image file using the DES algorithm.")
+    parser.add_argument("--input", type=str, required=True, help="The relative path to the image file you wish to encrypt.")
     parser.add_argument("--mode", type=str, required=True, choices=["ECB", "CBC", "CFB", "OFB", "CTR"], help="The encryption mode to use (ECB, CBC, CFB, OFB, or CTR).")
 
     args = parser.parse_args()
