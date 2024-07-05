@@ -2,7 +2,7 @@
 
 ## Overview
 
-The DES Image Encryption application enables users to encrypt image files using the Data Encryption Standard (DES) algorithm. This tool supports five different encryption modes: ECB, CBC, CFB, OFB, and CTR. The DES algorithm, as implemented in this project, follows the detailed guidelines provided in [The DES Algorithm Illustrated](https://page.math.tu-berlin.de/~kant/teaching/hess/krypto-ws2006/des.htm) by J. Orlin Grabbe. To use, first create and spin up a [virtual environment](https://docs.python.org/3/library/venv.html) and then run the following command:
+The DES Image Encryption application enables users to encrypt image files using the Data Encryption Standard (DES) algorithm. This tool supports five different encryption modes: ECB, CBC, CFB, OFB, and CTR. The DES algorithm, as implemented in this project, follows the detailed guidelines provided in [The DES Algorithm Illustrated](https://page.math.tu-berlin.de/~kant/teaching/hess/krypto-ws2006/des.htm) by J. Orlin Grabbe.
 
 ## Features
 
@@ -27,7 +27,7 @@ to install all necessary dependencies.
 
 ## Usage
 
-To encrypt a PNG file, run the following command:
+To encrypt an image file, run the following command:
 
 ```bash
 python encrypt.py --input <input_file> --mode <mode>
