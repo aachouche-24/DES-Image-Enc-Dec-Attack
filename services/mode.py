@@ -12,17 +12,16 @@ def pad_text(text) -> int:
     padding_length = len(text) % BLOCK_SIZE_BITS
 
     if padding_length:
-        padding = np.zeros(BLOCK_SIZE_BITS - padding_length)
-        text = np.concatenate((text, padding))
+        padding = np.zeros(BLOCK_SIZE_BITS - padding_length, dtype=np.uint8)
+        text = np.concatenate((text, padding), dtype=np.uint8)
 
-    return padding_length
+    return text, padding_length
 
 
-def unpad_text(text, padding_length: int) -> None:
-    if padding_length:
-        text = text[:len(text) - padding_length]
-
-    return
+# TODO: currently loses all data that is "unpadded"
+def unpad_text(text, padding_length: int) -> npt.NDArray[np.uint8]:
+    text = text[:len(text) - padding_length]
+    return text
 
 
 def ecb(text, subkeys: npt.NDArray[np.uint8]) -> npt.NDArray[np.uint8]:

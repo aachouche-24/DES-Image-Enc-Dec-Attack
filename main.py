@@ -1,6 +1,5 @@
 import argparse
 import os
-import services.des as DES
 import services.key as Key
 import services.mode as Mode
 from services.image import get_pixels, put_pixels
@@ -8,7 +7,7 @@ from services.image import get_pixels, put_pixels
 
 def main():
     parser = argparse.ArgumentParser(
-        description="A Python-based image encryption application that enables users to encrypt PNG files using the Data Encryption Standard DES algorithm. This tool supports five different encryption modes: ECB, CBC, CFB, OFB, and CTR.",
+        description="A Python-based image encryption application that enables users to encrypt image files using the Data Encryption Standard DES algorithm. This tool supports five different encryption modes: ECB, CBC, CFB, OFB, and CTR.",
         formatter_class=argparse.ArgumentDefaultsHelpFormatter
     )
 
@@ -18,7 +17,10 @@ def main():
 
     args = parser.parse_args()
 
-    pixels = get_pixels(args.input)
+    try:
+        pixels = get_pixels(args.input)
+    except ValueError:
+        raise
 
     if args.key:
         key = Key.generate_key(args.key)
@@ -29,13 +31,13 @@ def main():
 
     match args.mode:
         case "ECB":
-            padding_length = Mode.pad_text(pixels)
+            pixels, padding_length = Mode.pad_text(pixels)
             encrypted_data = Mode.ecb(pixels, subkeys)
-            # Mode.unpad_text(pixels, padding_length)
+            encrypted_data = Mode.unpad_text(encrypted_data, padding_length)
         case "CBC":
-            padding_length = Mode.pad_text()
+            pixels, padding_length = Mode.pad_text(pixels)
             encrypted_data = Mode.cbc(pixels, subkeys)
-            # Mode.unpad_text(pixels, padding_length)
+            encrypted_data = Mode.unpad_text(encrypted_data, padding_length)
         case "CFB":
             encrypted_data = Mode.cfb(pixels, subkeys)
         case "OFB":
