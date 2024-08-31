@@ -1,11 +1,9 @@
 import data.constants as constants
 import numpy as np
 import numpy.typing as npt
-import secrets
-from services.des import permute
 
 
-def generate_key(integer = secrets.randbits(64)) -> npt.NDArray[np.uint8]:
+def generate_key(integer: int) -> npt.NDArray[np.uint8]:
     binary_strings = list(format(integer, "b"))
     array = np.array(binary_strings, dtype=np.uint8)
     padding = 64 - len(binary_strings)
@@ -14,7 +12,7 @@ def generate_key(integer = secrets.randbits(64)) -> npt.NDArray[np.uint8]:
 
 
 def generate_subkeys(key: npt.NDArray[np.uint8]) -> npt.NDArray[np.uint8]:
-    permuted_key = permute(constants.PC_1, key)
+    permuted_key = key[constants.PC_1 - 1]
 
     c = permuted_key[:28]
     d = permuted_key[28:]
@@ -27,7 +25,7 @@ def generate_subkeys(key: npt.NDArray[np.uint8]) -> npt.NDArray[np.uint8]:
 
         cd_combined = np.hstack((c, d))
 
-        subkey = permute(constants.PC_2, cd_combined)
+        subkey = cd_combined[constants.PC_2 - 1]
         subkeys[i] = subkey
 
     return subkeys
