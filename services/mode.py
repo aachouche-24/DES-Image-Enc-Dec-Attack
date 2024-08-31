@@ -8,23 +8,16 @@ BLOCK_SIZE_BITS = 64
 SEGMENT_SIZE_BITS = 8
 
 
-def pad_text(text) -> int:
-    padding_length = len(text) % BLOCK_SIZE_BITS
-
-    if padding_length:
-        padding = np.zeros(BLOCK_SIZE_BITS - padding_length, dtype=np.uint8)
-        text = np.concatenate((text, padding), dtype=np.uint8)
-
-    return text, padding_length
+def pad_text(text: npt.NDArray[np.uint8]) -> npt.NDArray[np.uint8]:
+    padding = np.zeros(BLOCK_SIZE_BITS - (len(text) % BLOCK_SIZE_BITS), dtype=np.uint8)
+    return np.concatenate((text, padding), dtype=np.uint8)
 
 
-# TODO: currently loses all data that is "unpadded"
-def unpad_text(text, padding_length: int) -> npt.NDArray[np.uint8]:
-    text = text[:len(text) - padding_length]
-    return text
+def unpad_text(text: npt.NDArray[np.uint8], padding_length: int) -> npt.NDArray[np.uint8]:
+    return text[:len(text) - padding_length]
 
 
-def ecb(text, subkeys: npt.NDArray[np.uint8]) -> npt.NDArray[np.uint8]:
+def ecb(text: npt.NDArray[np.uint8], subkeys: npt.NDArray[np.uint8]) -> npt.NDArray[np.uint8]:
     num_blocks = len(text) // BLOCK_SIZE_BITS
     encryption = np.empty(num_blocks * BLOCK_SIZE_BITS, dtype=np.uint8)
 
@@ -41,7 +34,7 @@ def ecb(text, subkeys: npt.NDArray[np.uint8]) -> npt.NDArray[np.uint8]:
     return encryption
 
 
-def cbc(text, subkeys: npt.NDArray[np.uint8]) -> npt.NDArray[np.uint8]:
+def cbc(text: npt.NDArray[np.uint8], subkeys: npt.NDArray[np.uint8]) -> npt.NDArray[np.uint8]:
     # TODO: create a more robust IV
     IV = np.zeros(BLOCK_SIZE_BITS, dtype=np.uint8)
 
@@ -64,7 +57,7 @@ def cbc(text, subkeys: npt.NDArray[np.uint8]) -> npt.NDArray[np.uint8]:
     return encryption
 
 
-def cfb(text, subkeys: npt.NDArray[np.uint8]) -> npt.NDArray[np.uint8]:
+def cfb(text: npt.NDArray[np.uint8], subkeys: npt.NDArray[np.uint8]) -> npt.NDArray[np.uint8]:
     shift_register = np.zeros(BLOCK_SIZE_BITS, dtype=np.uint8)
 
     num_segments = len(text) // SEGMENT_SIZE_BITS
@@ -90,7 +83,7 @@ def cfb(text, subkeys: npt.NDArray[np.uint8]) -> npt.NDArray[np.uint8]:
     return ciphertext
 
 
-def ofb(text, subkeys: npt.NDArray[np.uint8]) -> npt.NDArray[np.uint8]:
+def ofb(text: npt.NDArray[np.uint8], subkeys: npt.NDArray[np.uint8]) -> npt.NDArray[np.uint8]:
     # TODO: create a more robust nonce
     nonce = np.zeros(BLOCK_SIZE_BITS, dtype=np.uint8)
     
@@ -113,7 +106,7 @@ def ofb(text, subkeys: npt.NDArray[np.uint8]) -> npt.NDArray[np.uint8]:
     return plaintext
 
 
-def ctr(text, subkeys: npt.NDArray[np.uint8]) -> npt.NDArray[np.uint8]:
+def ctr(text: npt.NDArray[np.uint8], subkeys: npt.NDArray[np.uint8]) -> npt.NDArray[np.uint8]:
     num_blocks = len(text) // BLOCK_SIZE_BITS
     ciphertext = np.empty(num_blocks * BLOCK_SIZE_BITS, dtype=np.uint8)
     counter = 0

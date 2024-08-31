@@ -13,9 +13,7 @@ def binary_array_to_integer_array(binary_array: npt.NDArray[np.uint8]) -> npt.ND
 
 def get_pixels(input_path: str) -> npt.NDArray[np.uint8]:
     with Image.open(input_path) as image:
-        accepted_modes = frozenset(("RGB", "RGBA"))
-
-        if image.mode not in accepted_modes:
+        if image.mode not in frozenset(("RGB", "RGBA")):
             raise ValueError(f"Image mode {image.mode} not supported.")
         
         data = np.array(image.getdata(), dtype=np.uint8)
@@ -23,7 +21,7 @@ def get_pixels(input_path: str) -> npt.NDArray[np.uint8]:
         return integer_array_to_binary_array(data).reshape(-1)
 
 
-def put_pixels(input_path: str, output_path: str, encrypted_data):
+def put_pixels(input_path: str, output_path: str, encrypted_data: npt.NDArray[np.uint8]):
     with Image.open(input_path) as image:
         match image.mode:
             case "RGB":
