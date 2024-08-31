@@ -4,6 +4,11 @@
 
 A Python CLI that enables users to encrypt image files using the Data Encryption Standard (DES) algorithm. This tool supports five different encryption modes: ECB, CBC, CFB, OFB, and CTR. The DES algorithm, as implemented in this project, follows the detailed guidelines provided in [The DES Algorithm Illustrated](https://page.math.tu-berlin.de/~kant/teaching/hess/krypto-ws2006/des.htm) by J. Orlin Grabbe.
 
+&nbsp; | &nbsp; | <img src="./assets/panda.png" alt="Panda" /> | &nbsp; | &nbsp;
+:---: | :---: | :---: | :---: | :---:
+ECB | CBC | CFB | OFB | CTR
+<img src="./assets/panda-ECB_ENCRYPTION.png" alt="ECB Encryption" /> | <img src="./assets/panda-CBC_ENCRYPTION.png" alt="CBC Encryption" /> | <img src="./assets/panda-CFB_ENCRYPTION.png" alt="CFB Encryption" /> | <img src="./assets/panda-OFB_ENCRYPTION.png" alt="OFB Encryption" /> | <img src="./assets/panda-CTR_ENCRYPTION.png" alt="CTR Encryption" />
+
 ## Features
 
 - **Command-Line Interface:** Easily encrypt and decrypt images directly from the command line.
