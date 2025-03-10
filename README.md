@@ -1,63 +1,69 @@
-# DES Image Encryption
+# DES Image Encryption & Brute-Force Attack
 
-<img
-    src="./assets/panda.png"
-    alt="Panda"
-    height="200px"
-    width="200px"
-    style="margin-left: calc(50% - 100px);"
-/>
+This project implements **Data Encryption Standard (DES) encryption** for images and demonstrates a **brute-force attack (key exhaustion)** to decrypt an image encrypted using **DES-ECB mode**.
 
-ECB | CBC | CFB | OFB | CTR
-:---: | :---: | :---: | :---: | :---:
-<img src="./assets/panda-ECB_ENCRYPTION.png" alt="ECB Encryption" /> | <img src="./assets/panda-CBC_ENCRYPTION.png" alt="CBC Encryption" /> | <img src="./assets/panda-CFB_ENCRYPTION.png" alt="CFB Encryption" /> | <img src="./assets/panda-OFB_ENCRYPTION.png" alt="OFB Encryption" /> | <img src="./assets/panda-CTR_ENCRYPTION.png" alt="CTR Encryption" />
+## 🔥 Features
+- Encrypt and decrypt images using the **DES algorithm**.
+- Support for **ECB, CBC, CFB, OFB, and CTR** encryption modes.
+- Perform a **brute-force attack** to find the correct DES key and reconstruct the original image.
+- Compare the decrypted image with the original.
 
-## Overview
+---
 
-A Python CLI that enables users to encrypt image files using the Data Encryption Standard (DES) algorithm. This tool supports five different encryption modes: ECB, CBC, CFB, OFB, and CTR. The DES algorithm, as implemented in this project, follows the detailed guidelines provided in [The DES Algorithm Illustrated](https://page.math.tu-berlin.de/~kant/teaching/hess/krypto-ws2006/des.htm) by J. Orlin Grabbe.
-
-
-## Features
-
-- **Command-Line Interface:** Easily encrypt and decrypt images directly from the command line.
-- **Multiple Encryption Modes:** Choose from five different modes of DES encryption.
-- **Image File Support:** Specifically designed to work with images that use the RGB or RGBA mode.
-- **Python Virtual Environment:** Utilizes a Python virtual environment to manage dependencies and ensure a consistent runtime environment.
-
-## Notes
-
-This tool currently only supports images that use the RGB or RGBA mode. In its current state, this tool is unable to decrypt images that were encrypted using the ECB or CBC mode (unless the original image size perfectly divides into 64-bit blocks).
-
-## Prerequisites
-
-Before using this application, ensure you have Python installed on your machine. You will also need to set up a [virtual environment](https://docs.python.org/3/library/venv.html). After setting up your virtual environment, run
-
-```bash
-python -m pip install -r requirements.txt
+## 🚀 Installation & Setup
+### 1️⃣ Clone the Repository
+```sh
+git clone https://github.com/yourusername/DES-Image-Cracker.git
+cd DES-Image-Cracker
 ```
 
-to install all necessary dependencies.
-
-## Usage
-
-```bash
-python main.py [-h] input {ECB,CBC,CFB,OFB,CTR} key
+### 2️⃣ Install Dependencies
+Make sure you have **Python 3.x** installed, then install the required packages:
+```sh
+pip install -r requirements.txt
 ```
 
-positional arguments:
-
-- `input`: The relative path to the image file you wish to encrypt.
-- `{ECB,CBC,CFB,OFB,CTR}`: The encryption mode to use.
-- `key`: A 64-bit integer representing the key to encrypt/decrypt the image with.
-
-options:
-
-- `-h, --help`: show this help message and exit
-
-## Example
-
-The following would encrypt an image named `panda.png` on my desktop using the `CTR` mode and the key `512`.
-
-```bash
-python main.py ../Desktop/panda.png CTR 512
+### 3️⃣ Run Encryption
+To encrypt an image using DES:
+```sh
+python encrypt_image.py input_image.png ECB 0x133457799BBCDFF1
 ```
+This generates an encrypted image.
+
+### 4️⃣ Run Decryption
+To decrypt an encrypted image:
+```sh
+python decrypt_image.py encrypted_image.png ECB 0x133457799BBCDFF1
+```
+
+### 5️⃣ Run Brute-Force Attack
+If the decryption key is unknown, use brute-force:
+```sh
+python brute_force.py encrypted_image.png ECB
+```
+Once the key is found, the script reconstructs the original image.
+
+---
+
+## 🔐 How Brute-Force Works
+Brute-force attacks systematically try all possible **56-bit DES keys** until the correct one is found. The process:
+1. Load the encrypted image.
+2. Try different keys.
+3. Check if the decrypted image makes sense.
+4. Stop when a valid key is found.
+
+---
+
+## 📜 License
+This project is open-source under the **MIT License**.
+
+---
+
+## 🙌 Contributing
+Feel free to fork this repository, improve the implementation, and submit pull requests!
+
+---
+
+## 📧 Contact
+For any questions, reach out via **GitHub Issues** or email me at `your.email@example.com`.
+
