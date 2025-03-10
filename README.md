@@ -65,5 +65,5 @@ Feel free to fork this repository, improve the implementation, and submit pull r
 ---
 
 ## 📧 Contact
-For any questions, reach out via **GitHub Issues** or email me at `your.email@example.com`.
+For any questions, reach out via **GitHub Issues** or email me at `wadoud.ups@gmail.com`.
 
