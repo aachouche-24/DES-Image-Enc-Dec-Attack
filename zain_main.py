@@ -13,20 +13,23 @@ def main():
     )
 
     # Set defaults to make testing easier
-    parser.add_argument("input", type=str, nargs='?', default="lenaRGB.png", help="The relative path to the grayscale image file you wish to encrypt.")
+    parser.add_argument("input", type=str, nargs='?', default="Black_with_WS.png", help="The relative path to the grayscale image file you wish to encrypt.")
     parser.add_argument("mode", type=str, nargs='?', choices=["ECB", "CBC", "CFB", "OFB", "CTR"], default="ECB", help="The encryption mode to use.")
     parser.add_argument("key", type=int, nargs='?', default=0x133457799BBCDFF1, help="A 64-bit integer representing the key to encrypt/decrypt the image with.")
 
     args = parser.parse_args()
 
-    # 🔍 Check if image is grayscale, and convert if necessary
+    # Check if the image is in RGB, RGBA, or grayscale
     with Image.open(args.input) as img:
-        if img.mode != 'L':
-            print(f"🔄 Converting '{args.input}' to grayscale (was '{img.mode}').")
-            img = img.convert('L')
-            grayscale_path = os.path.splitext(args.input)[0] + "_grayscale.png"
-            img.save(grayscale_path)
-            args.input = grayscale_path  # Use the new grayscale image for encryption
+        if img.mode == 'RGB':
+            print(f"🔵 Image is in RGB mode. Proceeding with RGB encryption.")
+        elif img.mode == 'RGBA':
+            print(f"🖼️ Image is in RGBA mode. Proceeding with RGBA encryption.")
+        elif img.mode == 'L':
+            print(f"⚪ Image is in Grayscale (L) mode. Proceeding with grayscale encryption.")
+        else:
+            print(f"❌ Your input image is not supported. The image mode is '{img.mode}'. Please provide an RGB, RGBA, or Grayscale image.")
+            return  # Exit if the image is not RGB, RGBA, or grayscale
 
     try:
         pixels = get_pixels(args.input)
@@ -36,6 +39,7 @@ def main():
     key = Key.generate_key(args.key)
     subkeys = Key.generate_subkeys(key)
 
+    # Perform DES encryption based on the mode selected
     match args.mode:
         case "ECB":
             pixels_padded = Mode.pad_text(pixels)
@@ -61,6 +65,8 @@ def main():
     put_pixels(args.input, output_file, encrypted_data)
     print(f"✅ Image written to {output_file}.")
 
+    # Print the key used for encryption
+    print(f"🔑 Encryption key used: {hex(args.key)}")
 
 if __name__ == "__main__":
     main()
